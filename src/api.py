@@ -82,7 +82,7 @@ async def status_handler(request: web.Request) -> web.Response:
     """处理 GET /status 请求"""
     return web.json_response({
         "status": "ok",
-        "message": "HakusAI API is running",
+        "message": "LTMGraph API is running",
         "current_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     })
 
@@ -97,7 +97,7 @@ async def start_server():
     await runner.setup()
     site = web.TCPSite(runner, '0.0.0.0', 8950)
     await site.start()
-    logger.info("HakusAI API server started at http://0.0.0.0:8950")
+    logger.info("LTMGraph API server started at http://0.0.0.0:8950")
     await asyncio.Event().wait()
 
 if __name__ == "__main__":

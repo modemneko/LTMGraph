@@ -1,6 +1,6 @@
-# HakusAI
+# LTMGraph
 
-**HakusAI** 是一个基于 LangChain 和 LangGraph 构建的智能 AI 助手，化身为活泼的“羽汐”（由提示词性格设定）。它具备一定的学习能力，能记住用户的偏好、爱好等个人信息，旨在为用户提供个性化、智能化的交互体验。
+**LTMGraph（LongTermMemory Graph）** 是一个基于 LangChain 和 LangGraph 构建的长期记忆图智能 AI 助手，化身为活泼的“羽汐”（由提示词性格设定）。它具备一定的学习能力，能记住用户的偏好、爱好等个人信息，旨在为用户提供个性化、智能化的交互体验。
 
 - (因未能做性能优化，且消耗算力大，此架构已遗弃，仅作为思路参考)
 望大佬们指点江山，提出改进建议
@@ -102,8 +102,8 @@ graph TD
 ### 步骤
 1. 克隆仓库：
    ```bash
-   git clone https://github.com/modemneko/HakusAI.git
-   cd HakusAI
+   git clone https://github.com/modemneko/HakusAI.git LTMGraph
+   cd LTMGraph
    ```
 2. 创建并激活虚拟环境（可选但推荐）：
    ```bash
@@ -132,7 +132,7 @@ graph TD
    - 浏览器会自动打开，默认地址为`http://localhost7800`
 
 ## API
-- HakusAI 提供 RESTful API 用于与AI交互。
+- LTMGraph 提供 RESTful API 用于与AI交互。
 - 主要端点为 POST /chat，接收 JSON 请求体（包含 `message`（消息）、`uid`（用户ID，必填）、`api_key`（Google API 密钥，必填）、`image`（可选 base64 图片）），返回 JSON 响应（包含 `response`（羽汐回复）、`uid` 和 `log`（实时日志））。
 - 示例：
 ```bash
@@ -143,7 +143,7 @@ curl -X POST http://localhost:8950/chat -H "Content-Type: application/json" -d '
 
 
 ## 贡献
-欢迎提交Issue或Pull Request到[Github仓库](https://github.com/modemneko/HakusAI.git)。请遵循以下步骤：
+欢迎提交Issue或Pull Request到[上游 Github 仓库](https://github.com/modemneko/HakusAI.git)。请遵循以下步骤：
 1. Fork 仓库。
 2. 创建你的功能分支（`git checkout -b feature/xxx`）。
 3. 提交更改（`git commit -m "Add xxx feature"`）。

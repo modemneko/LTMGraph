@@ -41,7 +41,7 @@ def initialize_state(uid: str) -> State:
     user_states: Dict[str, State] = {}
     if uid not in user_states:
         logger.info(f"Initializing state for new user {uid}")
-        persist_dir = os.path.abspath(f"hakusai_memory_db/user_{uid}")
+        persist_dir = os.path.abspath(f"ltmgraph_memory_db/user_{uid}")
         os.makedirs(persist_dir, exist_ok=True)
 
         embedding_function = GoogleGenerativeAIEmbeddings(google_api_key=API_KEY, model="models/text-embedding-004")

@@ -60,8 +60,8 @@ def chat_handler(message: str, image: bytes, history: list, state: State = None)
 
     return "", None, history, log_output
 
-with gr.Blocks(title="HakusAI - 小羽助手") as demo:
-    gr.Markdown("# HakusAI - 小羽助手")
+with gr.Blocks(title="LTMGraph - 小羽助手") as demo:
+    gr.Markdown("# LTMGraph - 小羽助手")
     gr.Markdown("跟小羽聊聊天吧！支持文本和图片输入，右侧显示实时日志。")
 
     with gr.Row():
