@@ -60,15 +60,15 @@ def chat_handler(message: str, image: bytes, history: list, state: State = None)
 
     return "", None, history, log_output
 
-with gr.Blocks(title="LTMGraph - 小羽助手") as demo:
-    gr.Markdown("# LTMGraph - 小羽助手")
-    gr.Markdown("跟小羽聊聊天吧！支持文本和图片输入，右侧显示实时日志。")
+with gr.Blocks(title="LTMGraph") as demo:
+    gr.Markdown("# LTMGraph")
+    gr.Markdown("通用 AI 助手，支持文本和图片输入，右侧显示实时日志。")
 
     with gr.Row():
         with gr.Column(scale=2):
             chatbot = gr.Chatbot(label="聊天记录", type="messages", height=400)
             with gr.Row():
-                msg = gr.Textbox(label="输入消息", placeholder="跟小羽说点啥吧...", scale=3)
+                msg = gr.Textbox(label="输入消息", placeholder="输入消息...", scale=3)
                 img = gr.Image(type="pil", label="上传图片", scale=1)
             submit_btn = gr.Button("发送")
         with gr.Column(scale=1):

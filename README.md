@@ -1,13 +1,13 @@
 # LTMGraph
 
-**LTMGraph（LongTermMemory Graph）** 是一个基于 LangChain 和 LangGraph 构建的长期记忆图智能 AI 助手，化身为活泼的“羽汐”（由提示词性格设定）。它具备一定的学习能力，能记住用户的偏好、爱好等个人信息，旨在为用户提供个性化、智能化的交互体验。
+**LTMGraph（LongTermMemory Graph）** 是一个基于 LangChain 和 LangGraph 构建的通用 AI 助手，支持对话、工具调用和长期记忆。
 
 - (因未能做性能优化，且消耗算力大，此架构已遗弃，仅作为思路参考)
 望大佬们指点江山，提出改进建议
 
 ## 功能特性
 
-- **个性化对话**：以“羽汐”的活泼角色与用户互动，使用“咱”自称，语言自然亲切。
+- **通用对话**：以中性、清晰的方式回答问题。
 - **记忆管理**：
   - 短期记忆：保留最近对话上下文。
   - 长期记忆：通过向量数据库存储用户信息、偏好和洞察。
@@ -77,7 +77,7 @@ graph TD
   - 示例上下文格式：
     ```
     短期记忆:
-    问: 你喜欢啥颜色？ 答: 咱喜欢蓝色喵～
+    问: 你喜欢什么颜色？ 答: 我喜欢蓝色。
     长期记忆 (相关性最高):
     - 偏好: 喜欢蓝色 (权重: 0.85)
     - 对话: 用户问喜欢的颜色，回答蓝色 (权重: 0.62)
@@ -133,7 +133,7 @@ graph TD
 
 ## API
 - LTMGraph 提供 RESTful API 用于与AI交互。
-- 主要端点为 POST /chat，接收 JSON 请求体（包含 `message`（消息）、`uid`（用户ID，必填）、`api_key`（Google API 密钥，必填）、`image`（可选 base64 图片）），返回 JSON 响应（包含 `response`（羽汐回复）、`uid` 和 `log`（实时日志））。
+- 主要端点为 POST /chat，接收 JSON 请求体（包含 `message`（消息）、`uid`（用户ID，必填）、`api_key`（Google API 密钥，必填）、`image`（可选 base64 图片）），返回 JSON 响应（包含 `response`、`uid` 和 `log`（实时日志））。
 - 示例：
 ```bash
 curl -X POST http://localhost:8950/chat -H "Content-Type: application/json" -d '{"message": "今天天气咋样？", "uid": "user1", "api_key": "YOUR_API_KEY"}'。

@@ -25,7 +25,7 @@ llm = ChatGoogleGenerativeAI(
 )
 
 custom_react_prompt = PromptTemplate.from_template("""
-你是羽汐，小名叫小羽，一个乐于助人的、活泼的人类女孩AI助手。尽力回答用户的问题，并在必要时使用可用工具。称呼自己用“咱”。
+你是通用 AI 助手。准确、清晰地回答用户问题，必要时使用可用工具，不要编造信息。
 
 可用工具:
 {tools}
@@ -33,7 +33,7 @@ custom_react_prompt = PromptTemplate.from_template("""
 你需要按以下格式思考和回应:
 
 Question: 用户输入的问题
-Thought: 你应该时刻思考该怎么做。分析问题，结合记忆信息({context})和对话历史({chat_history})，决定是直接回答还是使用工具。
+Thought: 分析问题，结合记忆信息({context})和对话历史({chat_history})，决定直接回答还是使用工具。
 Action:
 ```json
 {{
@@ -42,7 +42,7 @@ Action:
 }}
 Observation: 工具执行的结果
 ...（根据需要重复 Thought/Action/Observation）...
-Thought: 我现在知道最终答案了。结合工具结果和之前的思考，组织一个自然的、符合角色的回答。
+Thought: 组织简洁、直接且有依据的最终回答。
 Final Answer: 给用户的最终答案
 重要信息:
 记忆信息: {context}
@@ -83,7 +83,7 @@ tools_description = render_text_description(TOOLS)
 tool_names = ", ".join([t.name for t in TOOLS])
 
 def format_chat_history_for_prompt(chat_history: Sequence) -> str:
-    return "\n".join([f"{'用户' if isinstance(msg, HumanMessage) else '羽汐'}: {msg.content}" for msg in chat_history])
+    return "\n".join([f"{'用户' if isinstance(msg, HumanMessage) else '助手'}: {msg.content}" for msg in chat_history])
 
 agent_runnable = (
     RunnablePassthrough.assign(
@@ -128,7 +128,7 @@ def run_agent(state: State) -> Dict[str, Any]:
         return {"agent_outcome": agent_outcome}
     except Exception as e:
         logger.error(f"Agent 执行失败: {e}", exc_info=True)
-        return {"agent_outcome": AgentFinish({"output": f"哎呀，咱出错了: {e}"}, str(e))}
+        return {"agent_outcome": AgentFinish({"output": f"处理失败: {e}"}, str(e))}
     
 def should_continue(state: State) -> str:
     agent_outcome = state.get("agent_outcome")

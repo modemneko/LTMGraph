@@ -8,12 +8,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-EMOTION_INTENSITY = {
-    "超级喜欢": 1.5, "非常喜欢": 1.0, "很喜欢": 0.8, "喜欢": 0.6, "有点喜欢": 0.3, "还行": 0.2,
-    "完全讨厌": 1.5, "非常讨厌": 1.2, "很讨厌": 1.0, "讨厌": 0.8, "有点讨厌": 0.4, "不喜欢": 0.3,
-    "无所谓": 0.1, "随便": 0.1, "一般": 0.2
-}
-
 def memory_retrieval(state: State) -> State:
     query = state["current_query"]
     uid = state["uid"]
@@ -22,7 +16,7 @@ def memory_retrieval(state: State) -> State:
     intent_prompt = PromptTemplate(
         input_variables=["query", "history"],
         template="""
-基于用户查询和对话历史，判断用户意图和主题，返回格式：
+判断用户意图和主题，仅按以下格式返回：
 意图：<意图类型>
 主题：<主要话题>
 用户查询：{query}
@@ -64,21 +58,16 @@ def memory_retrieval(state: State) -> State:
 def extract_memory(state: State) -> State:
     uid = state["uid"]
     extract_prompt = PromptTemplate(
-        input_variables=["query", "response", "history", "current_time", "emotion_dict", "image_description"],
+        input_variables=["query", "response", "history", "current_time", "image_description"],
         template="""
-基于用户的提问、回答和图片描述，提取个人信息、偏好、习惯、情感或行为。
+从对话中提取可长期使用的用户事实、偏好、习惯、情感或行为；没有则返回“无”。
 用户问题：{query}
 回答：{response}
 历史：{history}
 时间：{current_time}
-情感强度：{emotion_dict}
 图片描述：{image_description}
 
-任务：
-1. 提取个人信息：`类型=内容`，如 `姓名=小明`
-2. 提取偏好/习惯/情感/行为：简要描述，如 `喜欢蓝色`
-3. 无信息则返回 "无"
-4. 格式：`个人信息: 类型1=内容1 | 偏好: 内容1 | 习惯: 内容1 | 情感: 内容1 | 行为: 内容1`
+格式：`个人信息: 类型=内容 | 偏好: 内容 | 习惯: 内容 | 情感: 内容 | 行为: 内容`
 """
     )
     chain = extract_prompt | llm
@@ -88,7 +77,6 @@ def extract_memory(state: State) -> State:
         "response": state["response"],
         "history": history_text,
         "current_time": state["current_time"],
-        "emotion_dict": str(EMOTION_INTENSITY),
         "image_description": state.get("image_description", "")
     }).content.strip()
 
@@ -144,14 +132,10 @@ def consolidation(state: State) -> State:
     prompt = PromptTemplate(
         input_variables=["history", "current_time"],
         template="""
-回顾对话历史：
-{history}
+从以下对话提取 1-3 条可长期使用的关键事实或偏好；没有则返回“无”。
 时间：{current_time}
-提取 1-3 条关键观察结论，如核心偏好、个人信息更新。若无信息则返回 "无"。
-格式：
-- <观察点1>
-- <观察点2>
-或 "无"
+对话：{history}
+格式：每行一条，以“- ”开头。
 """
     )
     chain = prompt | llm
@@ -190,21 +174,17 @@ def reflection(state: State) -> State:
     observations_text = "\n".join([f"- {doc.page_content}" for doc in reflection_docs])
 
     prompt = PromptTemplate(
-        input_variables=["observations", "history", "current_time", "emotion_dict"],
+        input_variables=["observations", "history", "current_time"],
         template="""
-观察：
-{observations}
-历史：
-{history}
+根据观察和历史生成 1-3 条高层洞察，并识别矛盾；没有可靠信息则返回“无”。
+观察：{observations}
+历史：{history}
 时间：{current_time}
-情感：{emotion_dict}
-生成 1-3 条高层洞察，检查矛盾。
 格式：
 洞察总结:
-- <洞察1>
+- <洞察>
 发现的矛盾:
-- <矛盾1> -> <说明>
-或 "无"
+- <矛盾> -> <说明>
 """
     )
     chain = prompt | llm
@@ -212,7 +192,6 @@ def reflection(state: State) -> State:
         "observations": observations_text,
         "history": history_text,
         "current_time": state["current_time"],
-        "emotion_dict": str(EMOTION_INTENSITY)
     }).content.strip()
 
     insights = []

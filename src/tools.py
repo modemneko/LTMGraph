@@ -42,6 +42,6 @@ def search(query: str) -> str:
         return formatted_result
     except Exception as e:
         logger.error(f"Search failed: {e}", exc_info=True)
-        return f"哎呀，搜索出错了: {e}"
+        return f"搜索失败: {e}"
 
 TOOLS = [search]
