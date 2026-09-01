@@ -102,7 +102,7 @@ graph TD
 ### 步骤
 1. 克隆仓库：
    ```bash
-   git clone https://github.com/modemneko/HakusAI.git LTMGraph
+   git clone https://github.com/modemneko/LTMGraph.git
    cd LTMGraph
    ```
 2. 创建并激活虚拟环境（可选但推荐）：
@@ -143,7 +143,7 @@ curl -X POST http://localhost:8950/chat -H "Content-Type: application/json" -d '
 
 
 ## 贡献
-欢迎提交Issue或Pull Request到[上游 Github 仓库](https://github.com/modemneko/HakusAI.git)。请遵循以下步骤：
+欢迎提交Issue或Pull Request到[Github 仓库](https://github.com/modemneko/LTMGraph)。请遵循以下步骤：
 1. Fork 仓库。
 2. 创建你的功能分支（`git checkout -b feature/xxx`）。
 3. 提交更改（`git commit -m "Add xxx feature"`）。
@@ -151,4 +151,4 @@ curl -X POST http://localhost:8950/chat -H "Content-Type: application/json" -d '
 5. 创建 Pull Request。
 
 ## 许可
-本项目采用MIT许可证。详情见[LICENCE](https://github.com/modemneko/HakusAI/blob/main/LICENSE)文件。
+本项目采用MIT许可证。详情见[LICENSE](https://github.com/modemneko/LTMGraph/blob/main/LICENSE)文件。
